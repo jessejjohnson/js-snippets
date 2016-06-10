@@ -21,7 +21,7 @@ Loads jQuery if it's not already loaded and encapsulates it in the callback so i
     })(window, document, "1.3", function($, jquery_loaded) {
 
         // Code to run once loaded
-        
+
     });
             
 ### Create Namespace
@@ -43,3 +43,15 @@ Loads jQuery if it's not already loaded and encapsulates it in the callback so i
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     }
 		
+### Parse Query String
+    function getUrlVars(the_widget) {
+        var vars = [], hash;
+        var hashes = the_widget.attr("src").split('?')[1].split('&');
+        for(var i = 0; i < hashes.length; i++)
+        {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    }
