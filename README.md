@@ -1,7 +1,7 @@
 ## Useful JavaScript Snippets
 
-### Resolve jQuery
-Loads jQuery if it's not already loaded and encapsulates it in the callback so it doesn't conflict with a pre-existing jQuery on the page. It also checks that a minimum version is available or else loads a known version -- in this case, v1.3. It sends a boolean value to the callback (my widget) on whether or not jQuery was loaded in case there are any triggers needed to be made. And only after jQuery is loaded does it call my widget, passing jQuery into it.
+### Resolve jQuery version
+Loads jQuery if it's not already loaded and encapsulates it in the callback so it doesn't conflict with a pre-existing jQuery on the page. It also checks that a minimum version is available or else loads a known version -- in this case, v1.7. It sends a boolean value to the callback (my widget) on whether or not jQuery was loaded in case there are any triggers needed to be made. And only after jQuery is loaded does it call my widget, passing jQuery into it.
 
 ```js
 (function(window, document, version, callback) {
@@ -19,14 +19,14 @@ Loads jQuery if it's not already loaded and encapsulates it in the callback so i
         };
         (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script);
     }
-})(window, document, "1.3", function($, jquery_loaded) {
+})(window, document, "1.7", function($, jquery_loaded) {
 
     // Code to run once loaded
 
 });
 ```
 
-### Create Namespace
+### Create namespace
 
 ```js
 function CreateNamespace(nsString) {
@@ -38,7 +38,7 @@ function CreateNamespace(nsString) {
 }
 ```
 
-### Create GUID
+### Create unique id
 
 ```js
 function NewGuid(nsString) {
@@ -65,7 +65,7 @@ var makeUniqueId = function() {
 };
 ```
 
-### Get Query String Variable
+### Get query string variable
 
 ```js
 function GetQueryParamByName(name, url) {
@@ -145,7 +145,7 @@ var extend = function(obj) {
 };
 ```
 
-### isArray
+### Check if object is array
 
 ```js
 var isArray = Array.isArray || function(obj) {
@@ -229,7 +229,7 @@ var getElementsByClassName = function(className, tag, elm) {
 };
 ```
 
-### De-parameterize string
+### Query string to object
 
 ```js
 var deparam = function(params, coerce) {
@@ -321,7 +321,7 @@ var deparam = function(params, coerce) {
 };
 ```
 
-### Load JavaScript
+### Load external javascript
 
 ```js
 function loadScript(src, onLoad) {
@@ -342,7 +342,7 @@ function loadScript(src, onLoad) {
 }
 ```
 
-### Load Stylesheet
+### Load external stylesheet
 
 ```js
 function loadCss(href) {
