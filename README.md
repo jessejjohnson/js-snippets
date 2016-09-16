@@ -317,3 +317,34 @@ var deparam = function(params, coerce) {
     return obj;
 };
 ``` 
+
+### Load JavaScript
+```js
+function loadScript(src, onLoad) {
+    var script_tag = document.createElement('script');
+    script_tag.setAttribute("type", "text/javascript");
+    script_tag.setAttribute("src", src);
+
+    if (script_tag.readyState) {
+        script_tag.onreadystatechange = function () {
+            if (this.readyState == 'complete' || this.readyState == 'loaded') {
+                onLoad();
+            }
+        };
+    } else {
+        script_tag.onload = onLoad;
+    }
+    (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
+}
+``` 
+
+### Load Stylesheet
+```js
+function loadCss(href) {
+    var link_tag = document.createElement('link');
+    link_tag.setAttribute("type", "text/css");
+    link_tag.setAttribute("rel", "stylesheet");
+    link_tag.setAttribute("href", href);
+    (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(link_tag);
+}
+``` 
