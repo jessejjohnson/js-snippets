@@ -230,6 +230,7 @@ var getElementsByClassName = function(className, tag, elm) {
 ```
 
 ### Query string to object
+Taken from [jquery-bbq by Ben Alman](https://github.com/cowboy/jquery-bbq/blob/master/jquery.ba-bbq.js)
 
 ```js
 var deparam = function(params, coerce) {
