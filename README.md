@@ -2,6 +2,7 @@
 
 ### Resolve jQuery
 Loads jQuery if it's not already loaded and encapsulates it in the callback so it doesn't conflict with a pre-existing jQuery on the page. It also checks that a minimum version is available or else loads a known version -- in this case, v1.3. It sends a boolean value to the callback (my widget) on whether or not jQuery was loaded in case there are any triggers needed to be made. And only after jQuery is loaded does it call my widget, passing jQuery into it.
+
 ```js
 (function(window, document, version, callback) {
     var j, d;
@@ -26,6 +27,7 @@ Loads jQuery if it's not already loaded and encapsulates it in the callback so i
 ```
 
 ### Create Namespace
+
 ```js
 function CreateNamespace(nsString) {
     var ns;
@@ -37,6 +39,7 @@ function CreateNamespace(nsString) {
 ```
 
 ### Create GUID
+
 ```js
 function NewGuid(nsString) {
         function s4() {
@@ -49,6 +52,7 @@ function NewGuid(nsString) {
 ```
 
 ### Create unique identifier
+
 ```js
 var makeUniqueId = function() {
     var text = "id-",
@@ -61,7 +65,8 @@ var makeUniqueId = function() {
 };
 ```
 
-### Get Query String Variable	
+### Get Query String Variable
+
 ```js
 function GetQueryParamByName(name, url) {
     if (!url) url = window.location.href;
@@ -72,9 +77,10 @@ function GetQueryParamByName(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
-``` 
+```
 
-### Get index of object i narray
+### Get index of object in array
+
 ```js
 if(!Array.prototype.indexOf) {
     Array.prototype.indexOf = function(obj, start) {
@@ -84,16 +90,18 @@ if(!Array.prototype.indexOf) {
         return -1;
     };
 }
-``` 
+```
 
 ### Check is object has property
+
 ```js
 var has = function(obj, key) {
     return Object.hasOwnProperty.call(obj, key);
 };
-    ``` 
+```
 
 ### Get object keys
+
 ```js
 var keys = Object.keys || function(obj) {
     if (obj !== Object(obj)) throw new TypeError('Invalid object');
@@ -101,19 +109,10 @@ var keys = Object.keys || function(obj) {
     for (var key in obj) if (has(obj, key)) keys[keys.length] = key;
     return keys;
 };
-``` 
-
-### Get object keys
-```js
-var keys = Object.keys || function(obj) {
-    if (obj !== Object(obj)) throw new TypeError('Invalid object');
-    var keys = [];
-    for (var key in obj) if (has(obj, key)) keys[keys.length] = key;
-    return keys;
-};
-``` 
+```
 
 ### Iterate over elements
+
 ```js
 var each = function(obj, iterator, context) {
     if (obj == null) return;
@@ -131,9 +130,10 @@ var each = function(obj, iterator, context) {
         }
     }
 };
-``` 
+```
 
 ### Extend an object
+
 ```js
 var extend = function(obj) {
     each(slice.call(arguments, 1), function(source) {
@@ -143,9 +143,10 @@ var extend = function(obj) {
     });
     return obj;
 };
-``` 
+```
 
 ### isArray
+
 ```js
 var isArray = Array.isArray || function(obj) {
     return Object.prototype.toString.call(obj) == '[object Array]';
@@ -153,6 +154,7 @@ var isArray = Array.isArray || function(obj) {
 ```
 
 ### Get elements by class name
+
 ```js
 var getElementsByClassName = function(className, tag, elm) {
     if (document.getElementsByClassName) {
@@ -225,9 +227,10 @@ var getElementsByClassName = function(className, tag, elm) {
     }
     return getElementsByClassName(className, tag, elm);
 };
-``` 
+```
 
 ### De-parameterize string
+
 ```js
 var deparam = function(params, coerce) {
     var obj = {},
@@ -316,9 +319,10 @@ var deparam = function(params, coerce) {
 
     return obj;
 };
-``` 
+```
 
 ### Load JavaScript
+
 ```js
 function loadScript(src, onLoad) {
     var script_tag = document.createElement('script');
@@ -336,9 +340,10 @@ function loadScript(src, onLoad) {
     }
     (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
 }
-``` 
+```
 
 ### Load Stylesheet
+
 ```js
 function loadCss(href) {
     var link_tag = document.createElement('link');
@@ -347,4 +352,4 @@ function loadCss(href) {
     link_tag.setAttribute("href", href);
     (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(link_tag);
 }
-``` 
+```
