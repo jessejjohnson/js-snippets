@@ -281,6 +281,7 @@ var deparam = function(params, coerce) {
 
 ## Selectors
 
+Currated list of randomly useful JavaScript snippets
 
 ### Get elements by class name
 
