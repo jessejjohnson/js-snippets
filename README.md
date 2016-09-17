@@ -1,6 +1,8 @@
-## Useful JavaScript Snippets
+# Useful JavaScript Snippets
 
-### Resolve jQuery version
+## Loading Resources
+
+###  Resolve jQuery version
 Loads jQuery, if it's not already loaded, and encapsulates within a callback to avoid conflicting with any pre-existing version(s).
 
 Ensures that a minimum version of jQuery is available otherwise loads a known version -- in this case, v1.7.
@@ -30,22 +32,50 @@ Passes a boolean value to the callback (jquery_loaded) on whether or not jQuery 
 });
 ```
 
-### Create namespace
+
+### Load external javascript
 
 ```js
-function CreateNamespace(nsString) {
-    var ns;
-    if (nsString) {
-        ns = nsString.split(".").reduce(function (pv, cv) { return pv[cv] = pv[cv] || {}; }, exports);
+function loadScript(src, onLoad) {
+    var script_tag = document.createElement('script');
+    script_tag.setAttribute("type", "text/javascript");
+    script_tag.setAttribute("src", src);
+
+    if (script_tag.readyState) {
+        script_tag.onreadystatechange = function () {
+            if (this.readyState == 'complete' || this.readyState == 'loaded') {
+                onLoad();
+            }
+        };
+    } else {
+        script_tag.onload = onLoad;
     }
-    return ns;
+    (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
 }
 ```
 
-### Create unique id
+
+### Load external stylesheet
 
 ```js
-function NewGuid(nsString) {
+function loadCss(href) {
+    var link_tag = document.createElement('link');
+    link_tag.setAttribute("type", "text/css");
+    link_tag.setAttribute("rel", "stylesheet");
+    link_tag.setAttribute("href", href);
+    (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(link_tag);
+}
+```
+
+
+## Identifiers
+
+
+
+### Create GUID
+
+```js
+function createGuid(nsString) {
         function s4() {
             return Math.floor((1 + Math.random()) * 0x10000)
                 .toString(16)
@@ -55,10 +85,11 @@ function NewGuid(nsString) {
     }
 ```
 
+
 ### Create unique identifier
 
 ```js
-var makeUniqueId = function() {
+var createUniqueId = function() {
     var text = "id-",
         possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
         length = 5;
@@ -69,40 +100,11 @@ var makeUniqueId = function() {
 };
 ```
 
-### Get query string variable
 
-```js
-function GetQueryParamByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-```
 
-### Get index of object in array
+## Objects
 
-```js
-if(!Array.prototype.indexOf) {
-    Array.prototype.indexOf = function(obj, start) {
-        for (var i = (start || 0), j = this.length; i < j; i++) {
-            if (this[i] === obj) { return i; }
-        }
-        return -1;
-    };
-}
-```
 
-### Check is object has property
-
-```js
-var has = function(obj, key) {
-    return Object.hasOwnProperty.call(obj, key);
-};
-```
 
 ### Get object keys
 
@@ -115,26 +117,6 @@ var keys = Object.keys || function(obj) {
 };
 ```
 
-### Iterate over elements
-
-```js
-var each = function(obj, iterator, context) {
-    if (obj == null) return;
-    if (Array.prototype.forEach && obj.forEach === Array.prototype.forEach) {
-        obj.forEach(iterator, context);
-    } else if (obj.length === +obj.length) {
-        for (var i = 0, l = obj.length; i < l; i++) {
-            if (i in obj && iterator.call(context, obj[i], i, obj) === breaker) return;
-        }
-    } else {
-        for (var key in obj) {
-            if (has(obj, key)) {
-                if (iterator.call(context, obj[key], key, obj) === breaker) return;
-            }
-        }
-    }
-};
-```
 
 ### Extend an object
 
@@ -149,6 +131,7 @@ var extend = function(obj) {
 };
 ```
 
+
 ### Check if object is array
 
 ```js
@@ -157,83 +140,50 @@ var isArray = Array.isArray || function(obj) {
 };
 ```
 
-### Get elements by class name
+
+### Get index of object in array
 
 ```js
-var getElementsByClassName = function(className, tag, elm) {
-    if (document.getElementsByClassName) {
-        getElementsByClassName = function(className, tag, elm) {
-            elm = elm || document;
-            var elements = elm.getElementsByClassName(className),
-                nodeName = (tag) ? new RegExp("\\b" + tag + "\\b", "i") : null,
-                returnElements = [],
-                current;
-            for (var i = 0, il = elements.length; i < il; i += 1) {
-                current = elements[i];
-                if (!nodeName || nodeName.test(current.nodeName)) {
-                    returnElements.push(current);
-                }
-            }
-            return returnElements;
-        };
-    } else if (document.evaluate) {
-        getElementsByClassName = function(className, tag, elm) {
-            tag = tag || "*";
-            elm = elm || document;
-            var classes = className.split(" "),
-                classesToCheck = "",
-                xhtmlNamespace = "http://www.w3.org/1999/xhtml",
-                namespaceResolver = (document.documentElement.namespaceURI === xhtmlNamespace) ? xhtmlNamespace : null,
-                returnElements = [],
-                elements,
-                node;
-            for (var j = 0, jl = classes.length; j < jl; j += 1) {
-                classesToCheck += "[contains(concat(' ', @class, ' '), ' " + classes[j] + " ')]";
-            }
-            try {
-                elements = document.evaluate(".//" + tag + classesToCheck, elm, namespaceResolver, 0, null);
-            } catch (e) {
-                elements = document.evaluate(".//" + tag + classesToCheck, elm, null, 0, null);
-            }
-            while ((node = elements.iterateNext())) {
-                returnElements.push(node);
-            }
-            return returnElements;
-        };
-    } else {
-        getElementsByClassName = function(className, tag, elm) {
-            tag = tag || "*";
-            elm = elm || document;
-            var classes = className.split(" "),
-                classesToCheck = [],
-                elements = (tag === "*" && elm.all) ? elm.all : elm.getElementsByTagName(tag),
-                current,
-                returnElements = [],
-                match;
-            for (var k = 0, kl = classes.length; k < kl; k += 1) {
-                classesToCheck.push(new RegExp("(^|\\s)" + classes[k] + "(\\s|$)"));
-            }
-            for (var l = 0, ll = elements.length; l < ll; l += 1) {
-                current = elements[l];
-                match = false;
-                for (var m = 0, ml = classesToCheck.length; m < ml; m += 1) {
-                    match = classesToCheck[m].test(current.className);
-                    if (!match) {
-                        break;
-                    }
-                }
-                if (match) {
-                    returnElements.push(current);
-                }
-            }
-            return returnElements;
-        };
-    }
-    return getElementsByClassName(className, tag, elm);
+if(!Array.prototype.indexOf) {
+    Array.prototype.indexOf = function(obj, start) {
+        for (var i = (start || 0), j = this.length; i < j; i++) {
+            if (this[i] === obj) { return i; }
+        }
+        return -1;
+    };
+}
+```
+
+
+### Check is object has property
+
+```js
+var has = function(obj, key) {
+    return Object.hasOwnProperty.call(obj, key);
 };
 ```
 
+
+## Querystring
+
+
+
+### Get query string value
+
+```js
+function GetQueryParamByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+```
+
 ### Query string to object
+
 Taken from [jquery-bbq by Ben Alman](https://github.com/cowboy/jquery-bbq/blob/master/jquery.ba-bbq.js)
 
 ```js
@@ -326,35 +276,124 @@ var deparam = function(params, coerce) {
 };
 ```
 
-### Load external javascript
+
+
+
+## Selectors
+
+
+### Get elements by class name
 
 ```js
-function loadScript(src, onLoad) {
-    var script_tag = document.createElement('script');
-    script_tag.setAttribute("type", "text/javascript");
-    script_tag.setAttribute("src", src);
-
-    if (script_tag.readyState) {
-        script_tag.onreadystatechange = function () {
-            if (this.readyState == 'complete' || this.readyState == 'loaded') {
-                onLoad();
+var getElementsByClassName = function(className, tag, elm) {
+    if (document.getElementsByClassName) {
+        getElementsByClassName = function(className, tag, elm) {
+            elm = elm || document;
+            var elements = elm.getElementsByClassName(className),
+                nodeName = (tag) ? new RegExp("\\b" + tag + "\\b", "i") : null,
+                returnElements = [],
+                current;
+            for (var i = 0, il = elements.length; i < il; i += 1) {
+                current = elements[i];
+                if (!nodeName || nodeName.test(current.nodeName)) {
+                    returnElements.push(current);
+                }
             }
+            return returnElements;
+        };
+    } else if (document.evaluate) {
+        getElementsByClassName = function(className, tag, elm) {
+            tag = tag || "*";
+            elm = elm || document;
+            var classes = className.split(" "),
+                classesToCheck = "",
+                xhtmlNamespace = "http://www.w3.org/1999/xhtml",
+                namespaceResolver = (document.documentElement.namespaceURI === xhtmlNamespace) ? xhtmlNamespace : null,
+                returnElements = [],
+                elements,
+                node;
+            for (var j = 0, jl = classes.length; j < jl; j += 1) {
+                classesToCheck += "[contains(concat(' ', @class, ' '), ' " + classes[j] + " ')]";
+            }
+            try {
+                elements = document.evaluate(".//" + tag + classesToCheck, elm, namespaceResolver, 0, null);
+            } catch (e) {
+                elements = document.evaluate(".//" + tag + classesToCheck, elm, null, 0, null);
+            }
+            while ((node = elements.iterateNext())) {
+                returnElements.push(node);
+            }
+            return returnElements;
         };
     } else {
-        script_tag.onload = onLoad;
+        getElementsByClassName = function(className, tag, elm) {
+            tag = tag || "*";
+            elm = elm || document;
+            var classes = className.split(" "),
+                classesToCheck = [],
+                elements = (tag === "*" && elm.all) ? elm.all : elm.getElementsByTagName(tag),
+                current,
+                returnElements = [],
+                match;
+            for (var k = 0, kl = classes.length; k < kl; k += 1) {
+                classesToCheck.push(new RegExp("(^|\\s)" + classes[k] + "(\\s|$)"));
+            }
+            for (var l = 0, ll = elements.length; l < ll; l += 1) {
+                current = elements[l];
+                match = false;
+                for (var m = 0, ml = classesToCheck.length; m < ml; m += 1) {
+                    match = classesToCheck[m].test(current.className);
+                    if (!match) {
+                        break;
+                    }
+                }
+                if (match) {
+                    returnElements.push(current);
+                }
+            }
+            return returnElements;
+        };
     }
-    (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
-}
+    return getElementsByClassName(className, tag, elm);
+};
 ```
 
-### Load external stylesheet
+
+# Miscellaneous
+
+
+### Create namespace
 
 ```js
-function loadCss(href) {
-    var link_tag = document.createElement('link');
-    link_tag.setAttribute("type", "text/css");
-    link_tag.setAttribute("rel", "stylesheet");
-    link_tag.setAttribute("href", href);
-    (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(link_tag);
+function CreateNamespace(nsString) {
+    var ns;
+    if (nsString) {
+        ns = nsString.split(".").reduce(function (pv, cv) { return pv[cv] = pv[cv] || {}; }, exports);
+    }
+    return ns;
 }
 ```
+
+
+### Iterate over elements
+
+```js
+var each = function(obj, iterator, context) {
+    if (obj == null) return;
+    if (Array.prototype.forEach && obj.forEach === Array.prototype.forEach) {
+        obj.forEach(iterator, context);
+    } else if (obj.length === +obj.length) {
+        for (var i = 0, l = obj.length; i < l; i++) {
+            if (i in obj && iterator.call(context, obj[i], i, obj) === breaker) return;
+        }
+    } else {
+        for (var key in obj) {
+            if (has(obj, key)) {
+                if (iterator.call(context, obj[key], key, obj) === breaker) return;
+            }
+        }
+    }
+};
+```
+
+
