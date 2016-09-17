@@ -1,15 +1,9 @@
-# JavaScript Snippets
+# Resources
 
-Currated list of randomly useful JavaScript snippets
-
-## Loading Resources
-
-###  Resolve jQuery version
+##  Load jQuery
 
 Loads jQuery, if it's not already loaded, and encapsulates within a callback to avoid conflicting with any pre-existing version(s).
-
 Ensures that a minimum version of jQuery is available otherwise loads a known version -- in this case, v1.7.
-
 Passes a boolean value to the callback (jquery_loaded) on whether or not jQuery was loaded to assit with triggering events after load.
 
 ```js
@@ -35,8 +29,7 @@ Passes a boolean value to the callback (jquery_loaded) on whether or not jQuery 
 });
 ```
 
-
-### Load external javascript
+## Load javascript
 
 ```js
 function loadScript(src, onLoad) {
@@ -57,8 +50,7 @@ function loadScript(src, onLoad) {
 }
 ```
 
-
-### Load external stylesheet
+## Load stylesheet
 
 ```js
 function loadCss(href) {
@@ -70,12 +62,9 @@ function loadCss(href) {
 }
 ```
 
+# Identifiers
 
-## Identifiers
-
-
-
-### Create GUID
+## Create GUID
 
 ```js
 function createGuid(nsString) {
@@ -88,8 +77,7 @@ function createGuid(nsString) {
     }
 ```
 
-
-### Create unique identifier
+## Create unique id
 
 ```js
 var createUniqueId = function() {
@@ -103,13 +91,9 @@ var createUniqueId = function() {
 };
 ```
 
-
-
 ## Objects
 
-
-
-### Get object keys
+## Get object keys
 
 ```js
 var keys = Object.keys || function(obj) {
@@ -120,8 +104,7 @@ var keys = Object.keys || function(obj) {
 };
 ```
 
-
-### Extend an object
+## Extend an object
 
 ```js
 var extend = function(obj) {
@@ -134,8 +117,7 @@ var extend = function(obj) {
 };
 ```
 
-
-### Check if object is array
+## Check if object is array
 
 ```js
 var isArray = Array.isArray || function(obj) {
@@ -143,8 +125,7 @@ var isArray = Array.isArray || function(obj) {
 };
 ```
 
-
-### Get index of object in array
+## Get index of object in array
 
 ```js
 if(!Array.prototype.indexOf) {
@@ -157,8 +138,7 @@ if(!Array.prototype.indexOf) {
 }
 ```
 
-
-### Check is object has property
+## Check if object has property
 
 ```js
 var has = function(obj, key) {
@@ -166,12 +146,9 @@ var has = function(obj, key) {
 };
 ```
 
+# Querystring
 
-## Querystring
-
-
-
-### Get query string value
+## Get query string value
 
 ```js
 function GetQueryParamByName(name, url) {
@@ -185,7 +162,7 @@ function GetQueryParamByName(name, url) {
 }
 ```
 
-### Query string to object
+## Query string to object
 
 Taken from [jquery-bbq by Ben Alman](https://github.com/cowboy/jquery-bbq/blob/master/jquery.ba-bbq.js)
 
@@ -279,14 +256,9 @@ var deparam = function(params, coerce) {
 };
 ```
 
+# Selectors
 
-
-
-## Selectors
-
-Currated list of randomly useful JavaScript snippets
-
-### Get elements by class name
+## Get elements by class name
 
 ```js
 var getElementsByClassName = function(className, tag, elm) {
@@ -362,11 +334,9 @@ var getElementsByClassName = function(className, tag, elm) {
 };
 ```
 
-
 # Miscellaneous
 
-
-### Create namespace
+## Create namespace
 
 ```js
 function CreateNamespace(nsString) {
@@ -378,8 +348,7 @@ function CreateNamespace(nsString) {
 }
 ```
 
-
-### Iterate over elements
+## Iterate over elements
 
 ```js
 var each = function(obj, iterator, context) {
@@ -399,5 +368,4 @@ var each = function(obj, iterator, context) {
     }
 };
 ```
-
 
