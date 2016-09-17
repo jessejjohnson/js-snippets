@@ -1,8 +1,11 @@
-# Useful JavaScript Snippets
+# JavaScript Snippets
+
+Currated list of randomly useful JavaScript snippets
 
 ## Loading Resources
 
 ###  Resolve jQuery version
+
 Loads jQuery, if it's not already loaded, and encapsulates within a callback to avoid conflicting with any pre-existing version(s).
 
 Ensures that a minimum version of jQuery is available otherwise loads a known version -- in this case, v1.7.
