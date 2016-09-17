@@ -1,7 +1,11 @@
 ## Useful JavaScript Snippets
 
 ### Resolve jQuery version
-Loads jQuery if it's not already loaded and encapsulates it in the callback so it doesn't conflict with a pre-existing jQuery on the page. It also checks that a minimum version is available or else loads a known version -- in this case, v1.7. It sends a boolean value to the callback (my widget) on whether or not jQuery was loaded in case there are any triggers needed to be made. And only after jQuery is loaded does it call my widget, passing jQuery into it.
+Loads jQuery, if it's not already loaded, and encapsulates within a callback to avoid conflicting with any pre-existing version(s).
+
+Ensures that a minimum version of jQuery is available otherwise loads a known version -- in this case, v1.7.
+
+Passes a boolean value to the callback (jquery_loaded) on whether or not jQuery was loaded to assit with triggering events after load.
 
 ```js
 (function(window, document, version, callback) {
