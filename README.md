@@ -91,7 +91,7 @@ var createUniqueId = function() {
 };
 ```
 
-## Objects
+# Objects
 
 ## Get object keys
 
@@ -148,7 +148,7 @@ var has = function(obj, key) {
 
 # Querystring
 
-## Get query string value
+## Get query string param value
 
 ```js
 function GetQueryParamByName(name, url) {
@@ -162,7 +162,7 @@ function GetQueryParamByName(name, url) {
 }
 ```
 
-## Query string to object
+## Get all query string params
 
 Taken from [jquery-bbq by Ben Alman](https://github.com/cowboy/jquery-bbq/blob/master/jquery.ba-bbq.js)
 
@@ -258,7 +258,7 @@ var deparam = function(params, coerce) {
 
 # Selectors
 
-## Get elements by class name
+## Find elements by class name
 
 ```js
 var getElementsByClassName = function(className, tag, elm) {
