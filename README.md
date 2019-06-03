@@ -146,7 +146,7 @@ var has = function(obj, key) {
 };
 ```
 
-## Check if a object is empty
+## Check if object is empty
 
 ```js
 var isEmpty = function(value){
